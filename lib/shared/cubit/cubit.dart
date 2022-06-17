@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:matrix_clouds/model/item.dart';
+import 'package:matrix_clouds/model/item/item.dart';
 import 'package:matrix_clouds/modules/cart/cart_screen.dart';
 import 'package:matrix_clouds/modules/home/home_screen.dart';
 import 'package:matrix_clouds/shared/cubit/states.dart';
@@ -66,25 +66,42 @@ class AppCubit extends Cubit<AppStates> {
   List<Item> myCart = [];
 
   void addMyCart(LatestCars latestCars) {
-    int count = 0;
+    int index;
     if (myCart.isEmpty) {
       myCart.add(Item(1, latestCars));
     } else {
-      for (var element in myCart) {
-        if (element.latestCars == latestCars) {
-          //  element.count = element.count! + 1;
-          count = element.count! + 1;
-          print("count = $count");
-        } else {
-          myCart.add(Item(1, latestCars));
-          print("Added");
-        }
+      index = myCart.indexWhere((element) => element.latestCars == latestCars);
+      if (index != -1) {
+        print(index);
+        myCart[index].count = myCart[index].count! + 1;
+      } else {
+        print("add");
+        myCart.add(Item(1, latestCars));
       }
-      if (count != 0) {
-        int index =
-            myCart.indexWhere((element) => element.latestCars == latestCars);
-        myCart[index] = Item(count, latestCars);
-      } else {}
     }
+  }
+
+  void add(int index) {
+    myCart[index].count = myCart[index].count! + 1;
+    emit(AddProductState());
+  }
+
+
+  void minus(int index) {
+    if (myCart[index].count! > 1) {
+      myCart[index].count = myCart[index].count! - 1;
+    } else {
+      myCart.removeAt(index);
+    }
+    emit(MinusProductState());
+  }
+
+
+  int totalPrice() {
+    int sum = 0;
+    for (var item in myCart) {
+      sum += (item.latestCars!.price! * item.count!);
+    }
+    return sum;
   }
 }

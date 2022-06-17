@@ -8,3 +8,5 @@ class GetDataErrorState extends AppStates {
   final String? error;
   GetDataErrorState(this.error);
 }
+class AddProductState extends AppStates {}
+class MinusProductState extends AppStates {}

@@ -26,9 +26,13 @@ Widget defaultButton({
   required VoidCallback? function,
   required IconData? icon,
   required String text,
+  double? width,
 }) =>
-    ElevatedButton.icon(
-      onPressed: function,
-      icon: Icon(icon),
-      label: Text(text),
+    Container(
+      width: width,
+      child: ElevatedButton.icon(
+        onPressed: function,
+        icon: Icon(icon),
+        label: Text(text),
+      ),
     );
