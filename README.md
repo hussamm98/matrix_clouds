@@ -1,6 +1,6 @@
 # matrix_clouds
 
-A new Flutter project.
+Matrix Clouds Task.
 
 ## Getting Started
 
